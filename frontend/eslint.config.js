@@ -104,6 +104,10 @@ module.exports = tseslint.config(
                     },
                 },
                 {
+                    selector: 'enumMember',
+                    format: ['PascalCase'],
+                },
+                {
                     selector: ['classProperty', 'parameterProperty'],
                     format: ['camelCase'],
                     modifiers: ['private'],
@@ -149,7 +153,7 @@ module.exports = tseslint.config(
                 {
                     selector: ['variable'],
                     modifiers: ['const', 'exported'],
-                    format: ['camelCase', 'UPPER_CASE'],
+                    format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
                     custom: {
                         regex: '^[^А-ЯЁа-яё]*$',
                         match: true,
