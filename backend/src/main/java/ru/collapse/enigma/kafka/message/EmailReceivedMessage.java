@@ -10,6 +10,7 @@ public record EmailReceivedMessage(
         String senderName,
         Date sentDate,
         String subject,
-        String text
+        String text,
+        String mailId
 ) {
 }

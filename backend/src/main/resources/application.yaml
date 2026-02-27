@@ -18,7 +18,9 @@ spring:
 
 
 mail:
-  host: imap.mail.ru
-  port: 993
+  imap-host: imap.mail.ru
+  imap-port: 993
+  smtp-host: smtp.mail.ru
+  smtp-port: 465
   username: ${MAIL_USERNAME}
   password: ${MAIL_PASSWORD}

@@ -53,6 +53,7 @@ public class MailReaderService {
                 .sentDate(email.getSentDate())
                 .subject(email.getSubject())
                 .text(toPlainText(email))
+                .mailId(email.getId())
                 .build();
     }
 
