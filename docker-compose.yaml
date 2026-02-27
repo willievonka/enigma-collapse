@@ -6,6 +6,7 @@ networks:
 volumes:
   postgres:
   kafka:
+  qdrant:
 
 services:
   postgres:
@@ -50,6 +51,23 @@ services:
       - kafka:/var/lib/kafka/data
     networks:
       - common
+
+  qdrant:
+    image: qdrant/qdrant:v1
+    restart: unless-stopped
+    ports:
+      - '6333:6333' # localhost:6333/dashboard
+    volumes:
+      - qdrant:/qdrant/storage
+
+  xray:
+    image: teddysun/xray:26.2.6
+    restart: unless-stopped
+    command: xray -c /etc/xray/config.json
+    volumes:
+      - ./config-vpn.json:/etc/xray/config.json
+    ports:
+      - "127.0.0.1:2088:2080" # Порт в inbound конфига должен совпадать
 
   backend:
     build:
