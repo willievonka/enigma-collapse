@@ -41,7 +41,7 @@ public class MailReadHandler {
         Session session = Session.getInstance(props, null);
 
         Store store = session.getStore();
-        store.connect(mailProps.getHost(), mailProps.getUsername(), mailProps.getPassword());
+        store.connect(mailProps.getImapHost(), mailProps.getUsername(), mailProps.getPassword());
 
         return store;
     }

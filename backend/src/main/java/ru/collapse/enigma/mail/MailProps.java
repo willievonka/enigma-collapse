@@ -9,9 +9,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "mail")
 public class MailProps {
 
-    private String host;
+    private String imapHost;
+    private int imapPort;
+    private String smtpHost;
+    private int smtpPort;
     private String username;
     private String password;
-    private int port;
 
 }
