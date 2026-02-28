@@ -16,4 +16,12 @@ public class EmailReceivedMessageKafkaTopicConfig {
                 .replicas(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic ticketProcessTask() {
+        return TopicBuilder.name(KafkaTopic.TICKET_PROCESS_TASK)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
 }
