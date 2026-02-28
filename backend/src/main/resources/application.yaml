@@ -24,3 +24,19 @@ mail:
   smtp-port: 465
   username: ${MAIL_USERNAME}
   password: ${MAIL_PASSWORD}
+
+openrouter:
+  api-key: ${OPENROUTER_API_KEY:REQUIRED}
+  base-url: https://openrouter.ai/api/v1
+  model-embedding: openai/text-embedding-3-small
+  model-llm: x-ai/grok-4.1-fast
+
+qdrant:
+  host: ${QDRANT_URL:localhost}
+  port: ${QDRANT_PORT:6334}
+  collection: ${QDRANT_COLLECTION:enigma_hack}
+
+xray:
+  host: ${XRAY_HOST:localhost}
+  port: ${XRAY_PORT:2080}
+
