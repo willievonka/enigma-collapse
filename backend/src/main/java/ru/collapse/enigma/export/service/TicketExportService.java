@@ -19,9 +19,9 @@ import java.util.List;
 public class TicketExportService {
 
     private static final String[] HEADERS = {
-            "ID", "Mail ID", "Full Name", "Email", "Phone", "Company",
-            "Subject", "Device Type", "Serial Numbers", "Sentiment",
-            "Status", "Created At", "Answered At"
+            "ID", "Full Name", "Email", "Phone", "Company",
+            "Subject", "Email text", "Device Type", "Serial Numbers", "Category", "Sentiment",
+            "Status", "Generated response", "Final response", "Created At", "Answered At"
     };
 
     private final TicketRepository ticketRepository;
@@ -37,16 +37,19 @@ public class TicketExportService {
             for (Ticket t : tickets) {
                 printer.printRecord(
                         t.getId(),
-                        t.getMailId(),
                         t.getFullName(),
                         t.getEmail(),
                         t.getPhone(),
                         t.getCompanyName(),
                         t.getSubject(),
+                        t.getRawEmailText(),
                         t.getDeviceType(),
                         t.getSerialNumbers() != null ? String.join(", ", t.getSerialNumbers()) : "",
+                        t.getCategory(),
                         t.getSentiment(),
                         t.getStatus(),
+                        t.getGeneratedResponse(),
+                        t.getFinalResponse(),
                         t.getCreatedAt(),
                         t.getAnsweredAt()
                 );
@@ -76,18 +79,21 @@ public class TicketExportService {
             for (Ticket t : tickets) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(t.getId() != null ? t.getId() : 0);
-                row.createCell(1).setCellValue(t.getMailId());
-                row.createCell(2).setCellValue(t.getFullName());
-                row.createCell(3).setCellValue(t.getEmail());
-                row.createCell(4).setCellValue(t.getPhone());
-                row.createCell(5).setCellValue(t.getCompanyName());
-                row.createCell(6).setCellValue(t.getSubject());
+                row.createCell(1).setCellValue(t.getFullName());
+                row.createCell(2).setCellValue(t.getEmail());
+                row.createCell(3).setCellValue(t.getPhone());
+                row.createCell(4).setCellValue(t.getCompanyName());
+                row.createCell(5).setCellValue(t.getSubject());
+                row.createCell(6).setCellValue(t.getRawEmailText());
                 row.createCell(7).setCellValue(t.getDeviceType());
                 row.createCell(8).setCellValue(t.getSerialNumbers() != null ? String.join(", ", t.getSerialNumbers()) : "");
-                row.createCell(9).setCellValue(t.getSentiment() != null ? t.getSentiment().name() : "");
-                row.createCell(10).setCellValue(t.getStatus() != null ? t.getStatus().name() : "");
-                row.createCell(12).setCellValue(t.getCreatedAt() != null ? t.getCreatedAt().toString() : "");
-                row.createCell(13).setCellValue(t.getAnsweredAt() != null ? t.getAnsweredAt().toString() : "");
+                row.createCell(9).setCellValue(t.getCategory() != null ? t.getCategory().name() : "");
+                row.createCell(10).setCellValue(t.getSentiment() != null ? t.getSentiment().name() : "");
+                row.createCell(11).setCellValue(t.getStatus() != null ? t.getStatus().name() : "");
+                row.createCell(12).setCellValue(t.getGeneratedResponse());
+                row.createCell(13).setCellValue(t.getFinalResponse());
+                row.createCell(14).setCellValue(t.getCreatedAt() != null ? t.getCreatedAt().toString() : "");
+                row.createCell(15).setCellValue(t.getAnsweredAt() != null ? t.getAnsweredAt().toString() : "");
             }
 
             for (int i = 0; i < HEADERS.length; i++) {

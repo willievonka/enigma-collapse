@@ -49,6 +49,10 @@ public class TicketService {
                 message,
                 ticket.getMailId()
         );
+
+        ticket.setFinalResponse(message);
+
+        ticketRepository.save(ticket);
     }
 
     private Ticket getById(Long id) {

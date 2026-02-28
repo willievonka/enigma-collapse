@@ -69,6 +69,9 @@ public class Ticket {
     @Column(name = "generated_response")
     private String generatedResponse;
 
+    @Column(name = "final_response")
+    private String finalResponse;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Instant createdAt;

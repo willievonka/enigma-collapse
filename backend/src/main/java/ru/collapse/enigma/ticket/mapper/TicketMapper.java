@@ -22,6 +22,7 @@ public class TicketMapper {
                 ticket.getCategory(),
                 ticket.getSentiment(),
                 ticket.getStatus(),
+                ticket.getGeneratedResponse(),
                 ticket.getCreatedAt()
         );
     }
