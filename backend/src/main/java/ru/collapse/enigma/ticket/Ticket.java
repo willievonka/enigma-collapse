@@ -1,12 +1,12 @@
-package ru.collapse.enigma.entity;
+package ru.collapse.enigma.ticket;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import ru.collapse.enigma.entity.enums.TicketStatus;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class Ticket {
     private List<String> serialNumbers;
 
     @Column(name = "device_type")
-    private String deviceType;
+        private String deviceType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
@@ -67,7 +67,7 @@ public class Ticket {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "answered_at")
     private LocalDateTime answeredAt;
