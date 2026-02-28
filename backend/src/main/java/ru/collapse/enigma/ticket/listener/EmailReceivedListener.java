@@ -7,6 +7,7 @@ import ru.collapse.enigma.kafka.message.EmailReceivedMessage;
 import ru.collapse.enigma.mail.send.MailClient;
 import ru.collapse.enigma.ticket.entity.Ticket;
 import ru.collapse.enigma.ticket.listener.process.EmailCompanyNameProcessor;
+import ru.collapse.enigma.ticket.listener.process.EmailDeviceTypeProcessor;
 import ru.collapse.enigma.ticket.listener.process.EmailSentinelProcessor;
 import ru.collapse.enigma.ticket.mapper.TicketMapper;
 
@@ -21,12 +22,14 @@ public class EmailReceivedListener {
 
     private final EmailSentinelProcessor emailSentinelProcessor;
     private final EmailCompanyNameProcessor emailCompanyNameProcessor;
+    private final EmailDeviceTypeProcessor emailDeviceTypeProcessor;
 
     @KafkaListener(topics = EMAIL_RECEIVED)
     public void consume(EmailReceivedMessage message) {
         Ticket ticket = ticketMapper.toEntity(message);
         emailSentinelProcessor.calculateSentinel(ticket);
         emailCompanyNameProcessor.resolveCompanyName(ticket);
+        emailDeviceTypeProcessor.resolveDeviceType(ticket);
 
 
         System.out.println();
