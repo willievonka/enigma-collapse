@@ -1,10 +1,12 @@
 package ru.collapse.enigma.listener.process;
 
+import org.springframework.stereotype.Component;
 import ru.collapse.enigma.ticket.entity.Ticket;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class EmailPhoneProcessor {
 
     private static final Pattern PHONE_PATTERN = Pattern.compile(
