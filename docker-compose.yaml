@@ -94,3 +94,14 @@ services:
       - postgres
     networks:
       - common
+  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - common
