@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.collapse.enigma.kafka.message.EmailReceivedMessage;
 import ru.collapse.enigma.listener.process.*;
 import ru.collapse.enigma.mail.send.MailClient;
+import ru.collapse.enigma.tg.TelegramService;
 import ru.collapse.enigma.ticket.entity.Ticket;
 import ru.collapse.enigma.ticket.entity.TicketStatus;
 import ru.collapse.enigma.ticket.mapper.TicketMapper;
@@ -20,6 +21,7 @@ public class EmailReceivedListener {
     private final MailClient mailClient;
     private final TicketMapper ticketMapper;
     private final TicketRepository ticketRepository;
+    private final TelegramService telegramService;
 
     private final EmailSentinelProcessor emailSentinelProcessor;
     private final EmailCompanyNameProcessor emailCompanyNameProcessor;
@@ -42,9 +44,8 @@ public class EmailReceivedListener {
         ticket.setStatus(TicketStatus.PROCESSED);
         ticketRepository.save(ticket);
 
+        telegramService.notify(ticket);
 
-
-        System.out.println();
 //        mailClient.send(message.senderAddress(), "Новое письмо", "Контент");
 //        mailClient.reply(message.senderAddress(), message.subject(), "Ответ", message.mailId());
     }
