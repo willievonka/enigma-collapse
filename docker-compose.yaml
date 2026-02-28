@@ -52,16 +52,14 @@ services:
     networks:
       - common
 
-  qdrant:
-    image: qdrant/qdrant:v1
-    restart: unless-stopped
-#    environment:
-#      - QDRANT__TLS__ENABLED=false
-    ports:
-      - '6333:6333' # localhost:6333/dashboard
-      - '6334:6334' # grpc
-    volumes:
-      - qdrant:/qdrant/storage
+  #  qdrant:
+  #    image: qdrant/qdrant:v1
+  #    restart: unless-stopped
+  #    ports:
+  #      - '6333:6333' # localhost:6333/dashboard
+  #      - '6334:6334' # grpc
+  #    volumes:
+  #      - qdrant:/qdrant/storage
 
   xray:
     image: teddysun/xray:26.2.6
@@ -88,10 +86,32 @@ services:
 
       - MAIL_USERNAME=require_ask_in_chat
       - MAIL_PASSWORD=require_ask_in_chat
+
+      - TELEGRAM_BOT_TOKEN=require
+      - TELEGRAM_CHAT_ID=require
+
+      - OPENROUTER_API_KEY=require
+
+      - XRAY_HOST=${XRAY_HOST:-xray}
+      - XRAY_PORT=${XRAY_PORT:-2080}
     ports:
       - '8080:8080'
     depends_on:
       - postgres
+      - kafka
+      - xray
+    networks:
+      - common
+
+  frontend-nginx:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
     networks:
       - common
   
