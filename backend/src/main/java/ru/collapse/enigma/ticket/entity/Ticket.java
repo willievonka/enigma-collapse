@@ -1,13 +1,13 @@
-package ru.collapse.enigma.ticket;
+package ru.collapse.enigma.ticket.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -42,10 +42,10 @@ public class Ticket {
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "subject", nullable = false, length = 500)
+    @Column(name = "subject", length = 500)
     private String subject;
 
-    @Column(name = "raw_email_text", nullable = false)
+    @Column(name = "raw_email_text", nullable = false, columnDefinition = "TEXT")
     private String rawEmailText;
 
     @JdbcTypeCode(SqlTypes.JSON)
@@ -53,14 +53,15 @@ public class Ticket {
     private List<String> serialNumbers;
 
     @Column(name = "device_type")
-        private String deviceType;
+    private String deviceType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
     private TicketStatus status = TicketStatus.CREATED;
 
-    @Column(name = "sentiment", nullable = false, length = 20)
-    private String sentiment;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sentiment")
+    private Sentiment sentiment;
 
     @Column(name = "parsed_summary")
     private String parsedSummary;
@@ -73,5 +74,5 @@ public class Ticket {
     private Instant createdAt;
 
     @Column(name = "answered_at")
-    private LocalDateTime answeredAt;
+    private Instant answeredAt;
 }

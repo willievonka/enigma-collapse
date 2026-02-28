@@ -1,7 +1,8 @@
-package ru.collapse.enigma.ticket;
+package ru.collapse.enigma.ticket.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.collapse.enigma.ticket.dto.TicketResponseDto;
+import ru.collapse.enigma.ticket.entity.Ticket;
 
 @Component
 public class TicketMapper {

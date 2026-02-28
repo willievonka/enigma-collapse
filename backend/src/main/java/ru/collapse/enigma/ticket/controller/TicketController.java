@@ -1,9 +1,10 @@
-package ru.collapse.enigma.ticket;
+package ru.collapse.enigma.ticket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.collapse.enigma.ticket.service.TicketService;
 import ru.collapse.enigma.ticket.dto.PageResponseDto;
 import ru.collapse.enigma.ticket.dto.TicketReplyRequestDto;
 import ru.collapse.enigma.ticket.dto.TicketResponseDto;

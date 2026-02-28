@@ -1,6 +1,7 @@
 package ru.collapse.enigma.ticket.dto;
 
-import ru.collapse.enigma.ticket.TicketStatus;
+import ru.collapse.enigma.ticket.entity.Sentiment;
+import ru.collapse.enigma.ticket.entity.TicketStatus;
 
 import java.time.Instant;
 import java.util.List;
@@ -13,7 +14,7 @@ public record TicketResponseDto(
         String email,
         List<String> serialNumbers,
         String deviceType,
-        String sentiment,
+        Sentiment sentiment,
         String parsedSummary,
         TicketStatus status,
         Instant createdAt

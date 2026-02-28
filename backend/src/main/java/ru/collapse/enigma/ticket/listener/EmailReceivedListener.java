@@ -1,4 +1,4 @@
-package ru.collapse.enigma.message.listener;
+package ru.collapse.enigma.ticket.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;

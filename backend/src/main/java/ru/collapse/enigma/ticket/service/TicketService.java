@@ -1,4 +1,4 @@
-package ru.collapse.enigma.ticket;
+package ru.collapse.enigma.ticket.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -6,8 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.collapse.enigma.mail.send.MailClient;
+import ru.collapse.enigma.ticket.mapper.TicketMapper;
 import ru.collapse.enigma.ticket.dto.PageResponseDto;
 import ru.collapse.enigma.ticket.dto.TicketResponseDto;
+import ru.collapse.enigma.ticket.entity.Ticket;
+import ru.collapse.enigma.ticket.repository.TicketRepository;
 
 @Service
 @RequiredArgsConstructor

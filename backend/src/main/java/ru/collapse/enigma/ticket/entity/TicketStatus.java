@@ -1,4 +1,4 @@
-package ru.collapse.enigma.ticket;
+package ru.collapse.enigma.ticket.entity;
 
 /**
  * Статусы заявки на поддержку.
