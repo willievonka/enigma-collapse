@@ -1,0 +1,17 @@
+export enum Category {
+    Maintenance = 'Обслуживание',
+    Modernization = 'Модернизация',
+    Diagnostics = 'Диагностика',
+    NodeReplacement = 'Замена узла',
+    Approval = 'Согласование',
+    Reporting = 'Отчётность',
+    Audit = 'Аудит',
+    CriticalError = 'Ошибка',
+    Warning = 'Предупреждение',
+    Risk = 'Риск',
+    Setup = 'Настройка',
+    Calibration = 'Поверка',
+    Conservation = 'Консервация',
+    Testing = 'Тестирование',
+    Unknown = 'Не определена',
+}

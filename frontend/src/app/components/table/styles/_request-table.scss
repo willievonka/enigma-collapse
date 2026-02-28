@@ -1,0 +1,160 @@
+tui-chip {
+    opacity: 80%;
+}
+
+.request-table {
+    width: 100%;
+    table-layout: fixed;
+
+    &__download-dropdown {
+        display: flex;
+        gap: 4px;
+        flex-direction: column;
+        padding: 8px;
+    }
+
+    &__wrapper {
+        overflow: hidden;
+        background: #fff;
+    }
+
+    &__controls {
+        display: flex;
+        flex: 1;
+        margin-bottom: 12px;
+        gap: 8px;
+    }
+
+    &__search {
+        width: 100%;
+    }
+
+    &__filters {
+        display: flex;
+        justify-content: end;
+        flex: 1;
+        gap: 8px;
+    }
+
+    &__filter {
+        width: 200px;
+    }
+
+    td, th {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .request-table__text {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    [tuiTh] {
+        background-color: #00000011;
+    }
+
+    [tuiTh], [tuiTd] {
+        border-inline: none;
+    }
+}
+
+.request-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__header {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    &__title {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 0;
+    }
+
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+        color: var(--tui-text-02);
+    }
+
+    &__chips {
+        display: flex;
+        gap: 8px;
+    }
+
+    &__chip {
+        border: 1px solid var(--chip-color);
+        background-color: color-mix(
+            in srgb,
+            var(--chip-color) 10%,
+            white
+        );
+    }
+
+    &__date {
+        white-space: nowrap;
+    }
+
+    &__content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__section-title {
+        margin: 0 0 4px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .label {
+            font-size: 11px;
+            color: var(--tui-text-03);
+        }
+
+        .value {
+            font-size: 13px;
+        }
+    }
+
+    &__description {
+        font-size: 13px;
+        white-space: pre-wrap;
+        border: 1px solid #dedede;
+        border-radius: 12px;
+        height: 100px;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+}

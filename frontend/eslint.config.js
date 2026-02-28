@@ -152,7 +152,7 @@ module.exports = tseslint.config(
                 },
                 {
                     selector: ['variable'],
-                    modifiers: ['const', 'exported'],
+                    modifiers: ['const'],
                     format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
                     custom: {
                         regex: '^[^А-ЯЁа-яё]*$',

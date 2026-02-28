@@ -1,4 +1,4 @@
-export const enum Tonality {
+export enum Tonality {
     Positive = 'Позитив',
     Neutral = 'Нейтрально',
     Negative = 'Негатив'
