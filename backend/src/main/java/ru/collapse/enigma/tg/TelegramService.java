@@ -39,11 +39,25 @@ public class TelegramService {
 
     private String buildText(Ticket ticket) {
         return TEMPLATE.formatted(
-                ticket.getEmail(),
-                ticket.getSubject(),
-                ticket.getSentiment().name(),
-                ticket.getCategory().name()
+                escapeMarkdownV2(ticket.getEmail()),
+                escapeMarkdownV2(ticket.getSubject()),
+                escapeMarkdownV2(ticket.getSentiment().name()),
+                escapeMarkdownV2(ticket.getCategory().name())
         );
+    }
+
+    private static String escapeMarkdownV2(String message) {
+        if (message == null) return null;
+
+        // Символы, которые нужно экранировать в MarkdownV2
+        String[] specialChars = {"_", "*", "[", "]", "(", ")", "~", "`", ">", "#", "+", "-", "=", "|", "{", "}", ".", "!"};
+
+        String escaped = message;
+        for (String ch : specialChars) {
+            escaped = escaped.replace(ch, "\\" + ch);
+        }
+
+        return escaped;
     }
 
 }
