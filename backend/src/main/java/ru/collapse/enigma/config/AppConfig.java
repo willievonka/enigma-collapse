@@ -7,9 +7,11 @@ import ru.collapse.enigma.mail.MailProps;
 import ru.collapse.enigma.rag.OpenrouterProps;
 import ru.collapse.enigma.rag.QdrantProps;
 import ru.collapse.enigma.rag.XrayConfig;
+import ru.collapse.enigma.tg.TelegramProps;
 
 @EnableScheduling
-@EnableConfigurationProperties({MailProps.class, OpenrouterProps.class, QdrantProps.class, XrayConfig.class})
+@EnableConfigurationProperties({MailProps.class, OpenrouterProps.class,
+        QdrantProps.class, XrayConfig.class, TelegramProps.class})
 @Configuration
 public class AppConfig {
 }

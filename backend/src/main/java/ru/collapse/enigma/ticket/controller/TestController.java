@@ -29,7 +29,7 @@ public class TestController {
                 .serialNumbers(List.of("SN-12345", "SN-67890"))
                 .deviceType("Принтер")
                 .sentiment(Sentiment.NEGATIVE)
-                .status(TicketStatus.CREATED)
+                .status(TicketStatus.IN_PROGRESS)
                 .build();
         ticketRepository.save(ticket);
     }

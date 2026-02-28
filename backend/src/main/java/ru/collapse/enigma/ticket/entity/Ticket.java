@@ -56,11 +56,15 @@ public class Ticket {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 30)
-    private TicketStatus status = TicketStatus.CREATED;
+    private TicketStatus status = TicketStatus.IN_PROGRESS;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sentiment")
     private Sentiment sentiment;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
+    private Category category;
 
     @Column(name = "generated_response")
     private String generatedResponse;

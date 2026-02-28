@@ -40,3 +40,6 @@ xray:
   host: ${XRAY_HOST:localhost}
   port: ${XRAY_PORT:2080}
 
+telegram:
+  bot-token: ${TELEGRAM_BOT_TOKEN:REQUIRE}
+  chat-id: ${TELEGRAM_CHAT_ID:REQUIRE}

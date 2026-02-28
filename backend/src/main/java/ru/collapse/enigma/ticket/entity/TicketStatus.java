@@ -6,7 +6,7 @@ package ru.collapse.enigma.ticket.entity;
  */
 public enum TicketStatus {
 
-    CREATED,
     IN_PROGRESS,
+    PROCESSED,
     RESOLVED
 }
