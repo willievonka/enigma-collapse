@@ -15,7 +15,6 @@ public record TicketResponseDto(
         List<String> serialNumbers,
         String deviceType,
         Sentiment sentiment,
-        String parsedSummary,
         TicketStatus status,
         Instant createdAt
 ) {

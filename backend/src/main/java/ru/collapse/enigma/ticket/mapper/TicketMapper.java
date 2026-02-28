@@ -1,6 +1,7 @@
 package ru.collapse.enigma.ticket.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.collapse.enigma.kafka.message.EmailReceivedMessage;
 import ru.collapse.enigma.ticket.dto.TicketResponseDto;
 import ru.collapse.enigma.ticket.entity.Ticket;
 
@@ -17,9 +18,18 @@ public class TicketMapper {
                 ticket.getSerialNumbers(),
                 ticket.getDeviceType(),
                 ticket.getSentiment(),
-                ticket.getParsedSummary(),
                 ticket.getStatus(),
                 ticket.getCreatedAt()
         );
+    }
+
+    public Ticket toEntity(EmailReceivedMessage message) {
+        return Ticket.builder()
+                .mailId(message.mailId())
+                .fullName(message.senderName())
+                .email(message.senderAddress())
+                .subject(message.subject())
+                .rawEmailText(message.text())
+                .build();
     }
 }
