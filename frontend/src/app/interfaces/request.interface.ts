@@ -1,4 +1,4 @@
-import { Status } from '../enums/status.enum';
+import { RequestStatus } from '../enums/request-status.enum';
 import { Tonality } from '../enums/tonality.enum';
 
 export interface IRequest {
@@ -10,6 +10,6 @@ export interface IRequest {
     readonly factoryNumberList: string[];
     readonly deviceType: string;
     readonly tonality: Tonality;
-    readonly status: Status;
+    readonly status: RequestStatus;
     readonly description: string;
 }

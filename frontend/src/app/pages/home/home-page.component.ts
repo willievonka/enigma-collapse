@@ -1,45 +1,32 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { DataRequestService } from '../../services/data-request.service';
 import { IRequest } from '../../interfaces/request.interface';
-import { Status } from '../../enums/status.enum';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
-
-type StatusCounters = Record<Status, number> & { total: number };
+import { CounterBarComponent } from '../../components/counter-bar/counter-bar.component';
+import { IStatusCounter } from '../../interfaces/status-counter.interface';
+import { STATUS_COUNTERS } from '../../constants/status-counters.constant';
 
 @Component({
     selector: 'home-page',
     templateUrl: './home-page.component.html',
     styleUrl: './styles/home-page.master.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [DataRequestService]
+    providers: [DataRequestService],
+    imports: [CounterBarComponent]
 })
 export class HomePageComponent {
-    protected readonly data: WritableSignal<IRequest[]> = signal([]);
+    protected readonly counters: Signal<IStatusCounter[]> = computed(() =>
+        STATUS_COUNTERS.map(counter => ({
+            title: counter.title,
+            icon: counter.icon,
+            count: this._requestList().filter(request => counter.match(request.status)).length
+        }))
+    );
 
-    protected readonly requestCount: Signal<number> = computed(() => this._counters().total);
-    protected readonly newCount: Signal<number> = computed(() => this._counters()[Status.New]);
-    protected readonly inProgressCount: Signal<number> = computed(() => this._counters()[Status.InProgress]);
-    protected readonly resolvedCount: Signal<number> = computed(() => this._counters()[Status.Resolved]);
-
+    private readonly _requestList: WritableSignal<IRequest[]> = signal([]);
     private readonly _dataRequestService: DataRequestService = inject(DataRequestService);
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
-
-    private readonly _counters: Signal<StatusCounters> = computed(() => {
-        const initial: StatusCounters = {
-            total: 0,
-            [Status.New]: 0,
-            [Status.InProgress]: 0,
-            [Status.Resolved]: 0,
-        };
-
-        return this.data().reduce((acc: StatusCounters, item: IRequest) => {
-            acc.total++;
-            acc[item.status]++;
-
-            return acc;
-        }, initial);
-    });
 
     constructor() {
         this.init();
@@ -47,9 +34,9 @@ export class HomePageComponent {
 
     /** Инициализация */
     private init(): void {
-        this._dataRequestService.getData()
+        this._dataRequestService.getRequests()
             .pipe(
-                tap((data) => this.data.set(data)),
+                tap((requests) => this._requestList.set(requests)),
                 takeUntilDestroyed(this._destroyRef)
             )
             .subscribe();

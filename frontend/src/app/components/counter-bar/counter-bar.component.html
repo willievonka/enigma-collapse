@@ -1,0 +1,23 @@
+<div class="counter-bar">
+    @for (counter of counters(); track counter.title) {
+        <div
+            tuiHeader="h6"
+            tuiCardLarge
+            tuiSurface="floating"
+        >
+            <h6 tuiSubtitle>
+                {{ counter.title }}
+                <span tuiTitle>
+                    {{ counter.count }}
+                </span>
+            </h6>
+            <aside tuiAccessories>
+                <tui-avatar
+                    appearance="primary"
+                    [src]="counter.icon"
+                    size="xs"
+                />
+            </aside>
+        </div>
+    }
+</div>
