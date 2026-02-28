@@ -1,0 +1,86 @@
+name: enigma_collapse
+
+networks:
+  common:
+  traefik:
+    external: true
+  kafka-cluster:
+    external: true
+  xray-client:
+    external: true
+
+volumes:
+  postgres:
+
+services:
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-enigma}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-XaaXwzFJIUEu7l2}
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+    ports:
+      - '5477:5432'
+    volumes:
+      - postgres:/var/lib/postgresql
+    networks:
+      - common
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: ./backend
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${POSTGRES_DB:-enigma}
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-XaaXwzFJIUEu7l2}
+
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:19092}
+
+      - XRAY_HOST=${XRAY_HOST:-xray}
+      - XRAY_PORT=${XRAY_PORT:-2080}
+
+#      - MAIL_USERNAME
+#      - MAIL_PASSWORD
+#
+#      - TELEGRAM_BOT_TOKEN=
+#      - TELEGRAM_CHAT_ID
+#
+#      - OPENROUTER_API_KEY
+#    ports:
+#      - '8080:8080'
+    depends_on:
+      - postgres
+    networks:
+      - common
+      - kafka-cluster
+      - xray-client
+
+  frontend-nginx:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    restart: unless-stopped
+#    ports:
+#      - '80:80'
+    depends_on:
+      - backend
+    networks:
+      - common
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.enigma-hack.rule=Host(`enigma.yakovlev05.ru`)"
+      - "traefik.http.routers.enigma-hack.entrypoints=websecure"
+      - "traefik.http.routers.enigma-hack.tls.certresolver=cloudflare"
+      - "traefik.http.routers.enigma-hack.tls=true"
+      - "traefik.http.services.enigma-hack.loadbalancer.server.port=80"
+      - "traefik.http.routers.enigma-hack.tls.domains[0].main=yakovlev05.ru"
+      - "traefik.http.routers.enigma-hack.tls.domains[0].sans=*.yakovlev05.ru"
