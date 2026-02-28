@@ -1,4 +1,6 @@
-package ru.collapse.enigma.ticket;
+package ru.collapse.enigma.ticket.dto;
+
+import ru.collapse.enigma.ticket.TicketStatus;
 
 import java.time.Instant;
 import java.util.List;

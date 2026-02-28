@@ -27,6 +27,9 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "mail_id", nullable = false)
+    private String mailId;
+
     @Column(name = "full_name")
     private String fullName;
 

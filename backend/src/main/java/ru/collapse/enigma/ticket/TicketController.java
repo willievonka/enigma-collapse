@@ -1,10 +1,12 @@
 package ru.collapse.enigma.ticket;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.collapse.enigma.ticket.dto.PageResponseDto;
+import ru.collapse.enigma.ticket.dto.TicketReplyRequestDto;
+import ru.collapse.enigma.ticket.dto.TicketResponseDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class TicketController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<TicketResponseDto> getTickets(
+    public PageResponseDto<TicketResponseDto> getTickets(
             @RequestParam (defaultValue = "0") int page,
             @RequestParam (defaultValue = "10") int size
     ) {
@@ -29,8 +31,10 @@ public class TicketController {
     }
 
     @PostMapping("/{id}/reply")
-    @ResponseStatus(HttpStatus.OK)
-    public TicketResponseDto replyTicket(@PathVariable Long id) {
-        return null;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void replyTicket(
+            @PathVariable Long id,
+            @RequestBody TicketReplyRequestDto request) {
+        ticketService.replyTicket(id, request.message());
     }
 }
