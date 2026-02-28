@@ -6,25 +6,25 @@ import { tap } from 'rxjs';
 import { CounterBarComponent } from '../../components/counter-bar/counter-bar.component';
 import { IStatusCounter } from '../../interfaces/status-counter.interface';
 import { STATUS_COUNTERS } from '../../constants/status-counters.constant';
+import { RequestTableComponent } from '../../components/table/request-table.component';
 
 @Component({
     selector: 'home-page',
     templateUrl: './home-page.component.html',
     styleUrl: './styles/home-page.master.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [DataRequestService],
-    imports: [CounterBarComponent]
+    imports: [CounterBarComponent, RequestTableComponent]
 })
 export class HomePageComponent {
     protected readonly counters: Signal<IStatusCounter[]> = computed(() =>
         STATUS_COUNTERS.map(counter => ({
             title: counter.title,
             icon: counter.icon,
-            count: this._requestList().filter(request => counter.match(request.status)).length
+            count: this.requestList().filter(request => counter.match(request.status)).length
         }))
     );
+    protected readonly requestList: WritableSignal<IRequest[]> = signal([]);
 
-    private readonly _requestList: WritableSignal<IRequest[]> = signal([]);
     private readonly _dataRequestService: DataRequestService = inject(DataRequestService);
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -36,7 +36,7 @@ export class HomePageComponent {
     private init(): void {
         this._dataRequestService.getRequests()
             .pipe(
-                tap((requests) => this._requestList.set(requests)),
+                tap((requests) => this.requestList.set(requests)),
                 takeUntilDestroyed(this._destroyRef)
             )
             .subscribe();

@@ -1,0 +1,279 @@
+<div class="request-table__controls">
+    <tui-textfield class="request-table__search" tuiTextfieldSize="m" iconStart="@tui.search">
+        <input
+            tuiTextfield
+            [(ngModel)]="search"
+            placeholder="Поиск по ID, отправителю, объекту или прибору"
+        />
+    </tui-textfield>
+    <div class="request-table__filters">
+        <tui-textfield class="request-table__filter" tuiChevron tuiTextfieldSize="m">
+            <input
+                tuiSelect
+                [(ngModel)]="categoryFilter"
+                placeholder="Выберите категорию"
+            />
+            <tui-data-list-wrapper
+                *tuiTextfieldDropdown
+                new
+                [items]="categoryTitles"
+            />
+        </tui-textfield>
+        <tui-textfield class="request-table__filter" tuiChevron tuiTextfieldSize="m">
+            <input
+                tuiSelect
+                [(ngModel)]="statusFilter"
+                placeholder="Выберите статус"
+            />
+            <tui-data-list-wrapper
+                *tuiTextfieldDropdown
+                new
+                [items]="statusTitles"
+            />
+        </tui-textfield>
+
+        <button
+            tuiButton
+            [tuiDropdown]="dropdownContent"
+            [tuiDropdownManual]="isDownloadDropdownOpen()"
+            [tuiObscuredEnabled]="isDownloadDropdownOpen()"
+            size="m"
+            iconStart="@tui.download"
+            (click)="toggleDownloadDropdown()"
+            (tuiActiveZoneChange)="handleActiveZone($event)"
+            (tuiObscured)="handleObscured($event)"
+        >
+            <ng-template #dropdownContent>
+                <div class="request-table__download-dropdown">
+                    <button tuiButton size="s" appearance="outline" (click)="downloadDocument('CSV')">
+                        Скачать CSV
+                    </button>
+                    <button tuiButton size="s" appearance="outline" (click)="downloadDocument('XLSX')">
+                        Скачать XLSX
+                    </button>
+                </div>
+            </ng-template>
+        </button>
+    </div>
+</div>
+
+<div class="request-table__wrapper">
+    @if (!!paginatedData().length) {
+        <table class="request-table" tuiTable>
+            <colgroup>
+                <col style="width: 4%">
+                <col style="width: 6%">
+                <col style="width: 12%">
+                <col style="width: 12%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 9%">
+                <col style="width: 9%">
+                <col style="width: 4%">
+            </colgroup>
+            <thead>
+                <tr class="head">
+                    <th tuiTh>ID</th>
+                    <th tuiTh>ДАТА</th>
+                    <th tuiTh>ОТПРАВИТЕЛЬ</th>
+                    <th tuiTh>ОРГАНИЗАЦИЯ</th>
+                    <th tuiTh>ПРИБОР</th>
+                    <th tuiTh>КАТЕГОРИЯ</th>
+                    <th tuiTh>ТОНАЛЬНОСТЬ</th>
+                    <th tuiTh>СТАТУС</th>
+                    <th tuiTh></th>
+                </tr>
+            </thead>
+            <tbody tuiTbody>
+                @for (row of paginatedData(); let i = $index; track row.id) {
+                    <tr tuiTr>
+                        <td tuiTd>{{ row.id }}</td>
+                        <td tuiTd>{{ row.date | date: 'dd.MM.yyyy' }}</td>
+                        <td tuiTd>
+                            <div class="request-table__text">
+                                <div>{{ row.name }}</div>
+                                <div>{{ row.email }}</div>
+                            </div>
+                        </td>
+                        <td tuiTd>{{ row.enterpriseTitle }}</td>
+                        <td tuiTd>{{ row.deviceType }}</td>
+                        <td tuiTd>
+                            <tui-chip
+                                class="request-table__chip"
+                                size="s"
+                                [style.border]="`1px solid ${categoryColor[row.category]}`"
+                                [style.backgroundColor]="`color-mix(in srgb, ${categoryColor[row.category]} 10%, white)`"
+                            >
+                                {{ row.category }}
+                            </tui-chip>
+                        </td>
+                        <td tuiTd>
+                            <tui-chip
+                                class="request-table__chip"
+                                size="s"
+                                [style.border]="`1px solid ${tonalityColor[row.tonality]}`"
+                                [style.backgroundColor]="`color-mix(in srgb, ${tonalityColor[row.tonality]} 10%, white)`"
+                            >
+                                {{ row.tonality }}
+                            </tui-chip>
+                        </td>
+                        <td tuiTd>
+                            <tui-chip
+                                class="request-table__chip"
+                                size="s"
+                                [style.border]="`1px solid ${statusColor[row.status]}`"
+                                [style.backgroundColor]="`color-mix(in srgb, ${statusColor[row.status]} 10%, white)`"
+                            >
+                                {{ row.status }}
+                            </tui-chip>
+                        </td>
+                        <td tuiTd>
+                            <button tuiButton appearance="flat" (click)="openModal(row, requestModal)">⋯</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <caption tuiCaption>
+                <tui-table-pagination
+                    [page]="page()"
+                    [size]="size()"
+                    [total]="filteredData().length"
+                    (paginationChange)="handlePaginationChange($event)"
+                />
+            </caption>
+
+        </table>
+    } @else {
+        <span>Ничего не найдено</span>
+    }
+</div>
+
+<ng-template #requestModal let-observer>
+    @let request = activeRow();
+
+    @if (request) {
+        <div class="request-modal">
+            <header class="request-modal__header">
+                <tui-chip appearance="outline">
+                    Заявка № {{ request.id }}
+                </tui-chip>
+                <h3
+                    class="request-modal__title"
+                >
+                    Не отправляется айди устройства
+                </h3>
+            </header>
+
+            <div class="request-modal__meta">
+                <div class="request-modal__chips">
+                    <tui-chip
+                        size="xs"
+                        class="request-modal__chip"
+                        [style.--chip-color]="statusColor[request.status]"
+                    >
+                        {{ request.status }}
+                    </tui-chip>
+
+                    <tui-chip
+                        size="xs"
+                        class="request-modal__chip"
+                        [style.--chip-color]="categoryColor[request.category]"
+                    >
+                        {{ request.category }}
+                    </tui-chip>
+
+                    <tui-chip
+                        size="xs"
+                        class="request-modal__chip"
+                        [style.--chip-color]="tonalityColor[request.tonality]"
+                    >
+                        {{ request.tonality }}
+                    </tui-chip>
+                </div>
+
+                <span class="request-modal__date">
+                    {{ request.date | date: 'dd.MM.yyyy' }}
+                </span>
+            </div>
+
+            <!-- Content -->
+            <div class="request-modal__content">
+                <section class="request-modal__section">
+                    <h4 class="request-modal__section-title">
+                        Отправитель
+                    </h4>
+
+                    <div class="request-modal__field">
+                        <span class="label">ФИО</span>
+                        <span class="value">{{ request.name }}</span>
+                    </div>
+
+                    <div class="request-modal__field">
+                        <span class="label">Организация</span>
+                        <span class="value">{{ request.enterpriseTitle }}</span>
+                    </div>
+
+                    <div class="request-modal__field">
+                        <span class="label">Email</span>
+                        <span class="value">{{ request.email }}</span>
+                    </div>
+
+                    <div class="request-modal__field">
+                        <span class="label">Телефон</span>
+                        <span class="value">{{ request.phone }}</span>
+                    </div>
+                </section>
+
+                <section class="request-modal__section">
+                    <h4 class="request-modal__section-title">
+                        Технические данные
+                    </h4>
+
+                    <div class="request-modal__field">
+                        <span class="label">Прибор</span>
+                        <span class="value">{{ request.deviceType }}</span>
+                    </div>
+
+                    <div class="request-modal__field">
+                        <span class="label">Серийные номера</span>
+                        <span class="value">{{ request.factoryNumberList }}</span>
+                    </div>
+                </section>
+            </div>
+            <section class="request-modal__section">
+                <h4 class="request-modal__section-title">
+                    Сообщение от пользователя
+                </h4>
+                <tui-textfield tuiTextfieldSize="s" [style.boxShadow]="'rgba(0, 0, 0, 0.1) 0px 2px 3px 0px'">
+                    <textarea
+                        [min]="3"
+                        [max]="10"
+                        tuiTextarea
+                        [formControl]="question"
+                        [readOnly]="true"
+                    ></textarea>
+                </tui-textfield>
+            </section>
+            <section class="request-modal__section">
+                <h4 class="request-modal__section-title">
+                    Ответ
+                </h4>
+                <tui-textfield tuiTextfieldSize="s">
+                    <textarea
+                        [min]="3"
+                        [max]="10"
+                        placeholder="Введите ответ"
+                        tuiTextarea
+                        [formControl]="reply"
+                    ></textarea>
+                </tui-textfield>
+            </section>
+
+            <footer class="request-modal__footer">
+                <button [loading]="replyInProgress()" size="s" tuiButton (click)="replyOnRequest()">
+                    Ответить
+                </button>
+            </footer>
+        </div>
+    }
+</ng-template>

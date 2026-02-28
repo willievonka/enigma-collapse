@@ -1,5 +1,6 @@
-export const enum RequestStatus {
-    New = 'Новый',
-    InProgress = 'В работе',
-    Resolved = 'Решенный'
+export enum RequestStatus {
+    Created = 'Создан',
+    InProgress = 'В обработке',
+    Proccessed = 'Обработан ИИ',
+    Resolved = 'Решен'
 }

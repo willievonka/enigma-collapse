@@ -1,6 +1,4 @@
 <div class="home-page">
-    <counter-bar
-        class="home-page__counter-bar"
-        [counters]="counters()"
-    />
+    <counter-bar [counters]="counters()"/>
+    <request-table [data]="requestList()"/>
 </div>

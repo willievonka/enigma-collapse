@@ -13,14 +13,14 @@ export const STATUS_COUNTERS: StatusCounterConfig[] = [
         match: () => true,
     },
     {
-        title: StatusCounterTitle.New,
-        icon: '@tui.star',
-        match: (s: RequestStatus) => s === RequestStatus.New,
-    },
-    {
         title: StatusCounterTitle.InProgress,
         icon: '@tui.loader',
         match: (s: RequestStatus) => s === RequestStatus.InProgress,
+    },
+    {
+        title: StatusCounterTitle.Proccessed,
+        icon: '@tui.star',
+        match: (s: RequestStatus) => s === RequestStatus.Proccessed,
     },
     {
         title: StatusCounterTitle.Resolved,

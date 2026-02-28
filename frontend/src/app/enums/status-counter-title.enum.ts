@@ -1,6 +1,6 @@
 export const enum StatusCounterTitle {
     Total = 'Всего обращений',
-    New = 'Новые',
     InProgress = 'В работе',
+    Proccessed = 'Обработаны ИИ',
     Resolved = 'Решены'
 };
