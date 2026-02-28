@@ -13,7 +13,7 @@ public class Mapper {
         try {
             return MAPPER.readTree(message);
         } catch (JsonProcessingException e) {
-            log.error("Failed to parse json message", e);
+            log.error("Failed to parse json message: {}", message);
             throw new RuntimeException(e);
         }
     }

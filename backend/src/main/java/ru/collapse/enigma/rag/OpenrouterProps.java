@@ -13,5 +13,6 @@ public class OpenrouterProps {
     private String baseUrl;
     private String modelEmbedding;
     private String modelLlm;
+    private String onlineModelLlm;
 
 }
