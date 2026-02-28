@@ -21,7 +21,7 @@ public class TicketExportService {
     private static final String[] HEADERS = {
             "ID", "Mail ID", "Full Name", "Email", "Phone", "Company",
             "Subject", "Device Type", "Serial Numbers", "Sentiment",
-            "Status", "Parsed Summary", "Created At", "Answered At"
+            "Status", "Created At", "Answered At"
     };
 
     private final TicketRepository ticketRepository;
@@ -47,7 +47,6 @@ public class TicketExportService {
                         t.getSerialNumbers() != null ? String.join(", ", t.getSerialNumbers()) : "",
                         t.getSentiment(),
                         t.getStatus(),
-                        t.getParsedSummary(),
                         t.getCreatedAt(),
                         t.getAnsweredAt()
                 );
@@ -87,7 +86,6 @@ public class TicketExportService {
                 row.createCell(8).setCellValue(t.getSerialNumbers() != null ? String.join(", ", t.getSerialNumbers()) : "");
                 row.createCell(9).setCellValue(t.getSentiment() != null ? t.getSentiment().name() : "");
                 row.createCell(10).setCellValue(t.getStatus() != null ? t.getStatus().name() : "");
-                row.createCell(11).setCellValue(t.getParsedSummary());
                 row.createCell(12).setCellValue(t.getCreatedAt() != null ? t.getCreatedAt().toString() : "");
                 row.createCell(13).setCellValue(t.getAnsweredAt() != null ? t.getAnsweredAt().toString() : "");
             }
