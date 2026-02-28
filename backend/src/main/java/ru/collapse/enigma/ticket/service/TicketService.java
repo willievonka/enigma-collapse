@@ -14,6 +14,8 @@ import ru.collapse.enigma.ticket.dto.TicketResponseDto;
 import ru.collapse.enigma.ticket.entity.Ticket;
 import ru.collapse.enigma.ticket.repository.TicketRepository;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class TicketService {
@@ -51,6 +53,7 @@ public class TicketService {
         );
 
         ticket.setFinalResponse(message);
+        ticket.setAnsweredAt(Instant.now());
 
         ticketRepository.save(ticket);
     }
