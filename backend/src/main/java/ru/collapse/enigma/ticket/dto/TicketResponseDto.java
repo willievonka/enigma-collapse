@@ -20,7 +20,7 @@ public record TicketResponseDto(
         Category category,
         Sentiment sentiment,
         TicketStatus status,
-        String generatedResponse,
+        String response,
         Instant createdAt
 ) {
 }

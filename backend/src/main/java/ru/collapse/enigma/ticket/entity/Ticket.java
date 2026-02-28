@@ -66,11 +66,8 @@ public class Ticket {
     @Column(name = "category")
     private Category category;
 
-    @Column(name = "generated_response", columnDefinition = "TEXT")
-    private String generatedResponse;
-
-    @Column(name = "final_response")
-    private String finalResponse;
+    @Column(name = "response", columnDefinition = "TEXT")
+    private String response;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp

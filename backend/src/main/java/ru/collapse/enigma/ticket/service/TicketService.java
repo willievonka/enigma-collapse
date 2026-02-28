@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.collapse.enigma.exception.EntityNotFoundException;
 import ru.collapse.enigma.mail.send.MailClient;
+import ru.collapse.enigma.ticket.entity.TicketStatus;
 import ru.collapse.enigma.ticket.mapper.PageMapper;
 import ru.collapse.enigma.ticket.mapper.TicketMapper;
 import ru.collapse.enigma.ticket.dto.PageResponseDto;
@@ -41,7 +42,7 @@ public class TicketService {
         return ticketMapper.toDto(ticket);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void replyTicket(Long id, String message) {
         Ticket ticket = getById(id);
 
@@ -52,8 +53,9 @@ public class TicketService {
                 ticket.getMailId()
         );
 
-        ticket.setFinalResponse(message);
+        ticket.setResponse(message);
         ticket.setAnsweredAt(Instant.now());
+        ticket.setStatus(TicketStatus.RESOLVED);
 
         ticketRepository.save(ticket);
     }

@@ -21,7 +21,7 @@ public class TicketExportService {
     private static final String[] HEADERS = {
             "ID", "Full Name", "Email", "Phone", "Company",
             "Subject", "Email text", "Device Type", "Serial Numbers", "Category", "Sentiment",
-            "Status", "Generated response", "Final response", "Created At", "Answered At"
+            "Status", "Response", "Created At", "Answered At"
     };
 
     private final TicketRepository ticketRepository;
@@ -48,8 +48,7 @@ public class TicketExportService {
                         t.getCategory(),
                         t.getSentiment(),
                         t.getStatus(),
-                        t.getGeneratedResponse(),
-                        t.getFinalResponse(),
+                        t.getResponse(),
                         t.getCreatedAt(),
                         t.getAnsweredAt()
                 );
@@ -90,10 +89,9 @@ public class TicketExportService {
                 row.createCell(9).setCellValue(t.getCategory() != null ? t.getCategory().name() : "");
                 row.createCell(10).setCellValue(t.getSentiment() != null ? t.getSentiment().name() : "");
                 row.createCell(11).setCellValue(t.getStatus() != null ? t.getStatus().name() : "");
-                row.createCell(12).setCellValue(t.getGeneratedResponse());
-                row.createCell(13).setCellValue(t.getFinalResponse());
-                row.createCell(14).setCellValue(t.getCreatedAt() != null ? t.getCreatedAt().toString() : "");
-                row.createCell(15).setCellValue(t.getAnsweredAt() != null ? t.getAnsweredAt().toString() : "");
+                row.createCell(12).setCellValue(t.getResponse());
+                row.createCell(13).setCellValue(t.getCreatedAt() != null ? t.getCreatedAt().toString() : "");
+                row.createCell(14).setCellValue(t.getAnsweredAt() != null ? t.getAnsweredAt().toString() : "");
             }
 
             for (int i = 0; i < HEADERS.length; i++) {

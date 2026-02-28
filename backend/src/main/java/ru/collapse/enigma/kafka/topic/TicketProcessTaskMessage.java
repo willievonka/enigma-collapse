@@ -7,13 +7,14 @@ import org.springframework.kafka.config.TopicBuilder;
 import ru.collapse.enigma.kafka.KafkaTopic;
 
 @Configuration
-public class EmailReceivedMessageKafkaTopicConfig {
+public class TicketProcessTaskMessage {
 
     @Bean
-    public NewTopic presentationSavedOrUpdated() {
-        return TopicBuilder.name(KafkaTopic.EMAIL_RECEIVED)
-                .partitions(1)
+    public NewTopic ticketProcessTask() {
+        return TopicBuilder.name(KafkaTopic.TICKET_PROCESS_TASK)
+                .partitions(5)
                 .replicas(1)
                 .build();
     }
+
 }

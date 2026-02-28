@@ -61,7 +61,7 @@ public class EmailGenerateResponseProcessor {
                 UserMessage.from(USER.formatted(ticket.getRawEmailText()))
         );
 
-        ticket.setGeneratedResponse(resp.aiMessage().text());
+        ticket.setResponse(resp.aiMessage().text());
     }
 
 }
