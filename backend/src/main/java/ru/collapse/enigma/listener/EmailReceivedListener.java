@@ -32,6 +32,7 @@ public class EmailReceivedListener {
         emailDeviceTypeProcessor.resolveDeviceType(ticket);
 
 
+
         System.out.println();
 //        mailClient.send(message.senderAddress(), "Новое письмо", "Контент");
 //        mailClient.reply(message.senderAddress(), message.subject(), "Ответ", message.mailId());
