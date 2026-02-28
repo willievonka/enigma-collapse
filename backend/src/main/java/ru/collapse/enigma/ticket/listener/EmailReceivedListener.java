@@ -5,6 +5,10 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import ru.collapse.enigma.kafka.message.EmailReceivedMessage;
 import ru.collapse.enigma.mail.send.MailClient;
+import ru.collapse.enigma.ticket.entity.Ticket;
+import ru.collapse.enigma.ticket.listener.process.EmailCompanyNameProcessor;
+import ru.collapse.enigma.ticket.listener.process.EmailSentinelProcessor;
+import ru.collapse.enigma.ticket.mapper.TicketMapper;
 
 import static ru.collapse.enigma.kafka.KafkaTopic.EMAIL_RECEIVED;
 
@@ -13,13 +17,21 @@ import static ru.collapse.enigma.kafka.KafkaTopic.EMAIL_RECEIVED;
 public class EmailReceivedListener {
 
     private final MailClient mailClient;
+    private final TicketMapper ticketMapper;
+
+    private final EmailSentinelProcessor emailSentinelProcessor;
+    private final EmailCompanyNameProcessor emailCompanyNameProcessor;
 
     @KafkaListener(topics = EMAIL_RECEIVED)
     public void consume(EmailReceivedMessage message) {
-        System.out.println("Received email, info: " + message);
+        Ticket ticket = ticketMapper.toEntity(message);
+        emailSentinelProcessor.calculateSentinel(ticket);
+        emailCompanyNameProcessor.resolveCompanyName(ticket);
 
-        mailClient.send(message.senderAddress(), "Новое письмо", "Контент");
-        mailClient.reply(message.senderAddress(), message.subject(), "Ответ", message.mailId());
+
+        System.out.println();
+//        mailClient.send(message.senderAddress(), "Новое письмо", "Контент");
+//        mailClient.reply(message.senderAddress(), message.subject(), "Ответ", message.mailId());
     }
 
 }

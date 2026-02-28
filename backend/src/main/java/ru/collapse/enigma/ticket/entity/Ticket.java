@@ -2,7 +2,6 @@ package ru.collapse.enigma.ticket.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -62,9 +61,6 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     @Column(name = "sentiment")
     private Sentiment sentiment;
-
-    @Column(name = "parsed_summary")
-    private String parsedSummary;
 
     @Column(name = "generated_response")
     private String generatedResponse;

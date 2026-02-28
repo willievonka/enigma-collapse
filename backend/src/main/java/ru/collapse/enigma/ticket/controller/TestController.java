@@ -30,7 +30,6 @@ public class TestController {
                 .deviceType("Принтер")
                 .sentiment(Sentiment.NEGATIVE)
                 .status(TicketStatus.CREATED)
-                .parsedSummary("Пользователь сообщает о неисправности принтера.")
                 .build();
         ticketRepository.save(ticket);
     }
