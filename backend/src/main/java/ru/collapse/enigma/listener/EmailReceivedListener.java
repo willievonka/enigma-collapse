@@ -28,6 +28,7 @@ public class EmailReceivedListener {
     private final EmailDeviceTypeProcessor emailDeviceTypeProcessor;
     private final EmailCategoryProcessor emailCategoryProcessor;
     private final EmailPhoneProcessor emailPhoneProcessor;
+    private final EmailGenerateResponseProcessor emailGenerateResponseProcessor;
 
     @KafkaListener(topics = EMAIL_RECEIVED)
     public void consume(EmailReceivedMessage message) {
@@ -40,6 +41,7 @@ public class EmailReceivedListener {
         emailDeviceTypeProcessor.resolveDeviceType(ticket);
         emailCategoryProcessor.resolveCategory(ticket);
         emailPhoneProcessor.parsePhoneNumber(ticket);
+        emailGenerateResponseProcessor.generateResponse(ticket);
 
         ticket.setStatus(TicketStatus.PROCESSED);
         ticketRepository.save(ticket);
