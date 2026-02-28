@@ -1,4 +1,4 @@
-package ru.collapse.enigma.ai;
+package ru.collapse.enigma.config;
 
 import dev.langchain4j.http.client.jdk.JdkHttpClient;
 import dev.langchain4j.http.client.jdk.JdkHttpClientBuilder;

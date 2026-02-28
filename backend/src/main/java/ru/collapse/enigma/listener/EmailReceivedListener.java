@@ -1,4 +1,4 @@
-package ru.collapse.enigma.ticket.listener;
+package ru.collapse.enigma.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import ru.collapse.enigma.kafka.message.EmailReceivedMessage;
 import ru.collapse.enigma.mail.send.MailClient;
 import ru.collapse.enigma.ticket.entity.Ticket;
-import ru.collapse.enigma.ticket.listener.process.EmailCompanyNameProcessor;
-import ru.collapse.enigma.ticket.listener.process.EmailDeviceTypeProcessor;
-import ru.collapse.enigma.ticket.listener.process.EmailSentinelProcessor;
+import ru.collapse.enigma.listener.process.EmailCompanyNameProcessor;
+import ru.collapse.enigma.listener.process.EmailDeviceTypeProcessor;
+import ru.collapse.enigma.listener.process.EmailSentinelProcessor;
 import ru.collapse.enigma.ticket.mapper.TicketMapper;
 
 import static ru.collapse.enigma.kafka.KafkaTopic.EMAIL_RECEIVED;

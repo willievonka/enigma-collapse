@@ -1,4 +1,4 @@
-package ru.collapse.enigma.ticket.listener.process;
+package ru.collapse.enigma.listener.process;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.langchain4j.data.message.SystemMessage;
