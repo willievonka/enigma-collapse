@@ -81,6 +81,10 @@ public class EmailDeviceTypeProcessor {
 
         JsonNode node = toJsonNode(resp.aiMessage().text());
         String deviceType = node.get("device").asText();
+        if ("null".equals(deviceType)) {
+            deviceType = null;
+        }
+
         List<String> serialNumbers = MAPPER.convertValue(node.get("serialNumbers"), new TypeReference<List<String>>() {
         });
         ticket.setDeviceType(deviceType);

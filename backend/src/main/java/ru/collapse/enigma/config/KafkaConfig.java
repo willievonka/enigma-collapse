@@ -66,7 +66,7 @@ public class KafkaConfig {
         var factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setCommonErrorHandler(kafkaErrorHandler());
-        factory.setConcurrency(1);
+        factory.setConcurrency(5);
         factory.setRecordMessageConverter(new JacksonJsonMessageConverter());
 
         return factory;

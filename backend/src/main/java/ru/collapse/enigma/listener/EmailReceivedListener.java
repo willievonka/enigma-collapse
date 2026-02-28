@@ -31,7 +31,7 @@ public class EmailReceivedListener {
         ticket.setStatus(TicketStatus.IN_PROGRESS);
         ticketRepository.save(ticket);
 
-        kafkaTemplate.send(KafkaTopic.TICKET_PROCESS_TASK, new TicketProcessTaskMessage(ticket.getId()));
+        kafkaTemplate.send(KafkaTopic.TICKET_PROCESS_TASK, String.valueOf(ticket.getId()), new TicketProcessTaskMessage(ticket.getId()));
     }
 
 }

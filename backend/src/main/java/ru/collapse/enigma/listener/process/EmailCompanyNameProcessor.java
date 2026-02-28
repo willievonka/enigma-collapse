@@ -68,6 +68,11 @@ public class EmailCompanyNameProcessor {
 
         JsonNode node = toJsonNode(resp.aiMessage().text());
         String companyName = node.get("company").asText();
+
+        if ("null".equals(companyName)) {
+            companyName = null;
+        }
+
         ticket.setCompanyName(companyName);
     }
 }
