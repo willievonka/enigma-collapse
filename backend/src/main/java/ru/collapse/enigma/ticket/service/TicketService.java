@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.collapse.enigma.exception.EntityNotFoundException;
 import ru.collapse.enigma.mail.send.MailClient;
+import ru.collapse.enigma.ticket.mapper.PageMapper;
 import ru.collapse.enigma.ticket.mapper.TicketMapper;
 import ru.collapse.enigma.ticket.dto.PageResponseDto;
 import ru.collapse.enigma.ticket.dto.TicketResponseDto;
@@ -19,6 +21,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final TicketMapper ticketMapper;
     private final MailClient mailClient;
+    private final PageMapper pageMapper;
 
     @Transactional(readOnly = true)
     public PageResponseDto<TicketResponseDto> getAllTickets(Pageable pageable) {
@@ -26,12 +29,7 @@ public class TicketService {
                 .findAll(pageable)
                 .map(ticketMapper::toDto);
 
-        return new PageResponseDto<>(
-                tickets.getContent(),
-                tickets.getNumber(),
-                tickets.getSize(),
-                tickets.getTotalElements(),
-                tickets.getTotalPages());
+        return pageMapper.toDto(tickets);
     }
 
     @Transactional(readOnly = true)
@@ -56,6 +54,6 @@ public class TicketService {
     private Ticket getById(Long id) {
         return ticketRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Обращение с id %d не найдено", id));
     }
 }

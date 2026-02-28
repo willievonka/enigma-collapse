@@ -15,8 +15,11 @@ public class TicketMapper {
                 ticket.getCompanyName(),
                 ticket.getPhone(),
                 ticket.getEmail(),
+                ticket.getSubject(),
+                ticket.getRawEmailText(),
                 ticket.getSerialNumbers(),
                 ticket.getDeviceType(),
+                ticket.getCategory(),
                 ticket.getSentiment(),
                 ticket.getStatus(),
                 ticket.getCreatedAt()

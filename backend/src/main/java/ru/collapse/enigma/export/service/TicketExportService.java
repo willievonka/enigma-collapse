@@ -1,4 +1,4 @@
-package ru.collapse.enigma.export;
+package ru.collapse.enigma.export.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;

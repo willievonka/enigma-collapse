@@ -11,8 +11,8 @@ import ru.collapse.enigma.ticket.entity.Ticket;
 
 import java.util.List;
 
-import static ru.collapse.enigma.util.Mapper.MAPPER;
-import static ru.collapse.enigma.util.Mapper.toJsonNode;
+import static ru.collapse.enigma.listener.Mapper.MAPPER;
+import static ru.collapse.enigma.listener.Mapper.toJsonNode;
 
 @RequiredArgsConstructor
 @Component

@@ -13,7 +13,7 @@ import org.simplejavamail.converter.EmailConverter;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.collapse.enigma.kafka.message.EmailReceivedMessage;
-import ru.collapse.enigma.util.ThrowableSupplier;
+import ru.collapse.enigma.kafka.ThrowableSupplier;
 
 import java.util.Optional;
 

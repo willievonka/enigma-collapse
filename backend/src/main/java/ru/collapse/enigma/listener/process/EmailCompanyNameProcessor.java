@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.collapse.enigma.ticket.entity.Ticket;
 
-import static ru.collapse.enigma.util.Mapper.toJsonNode;
+import static ru.collapse.enigma.listener.Mapper.toJsonNode;
 
 @RequiredArgsConstructor
 @Component
