@@ -1,4 +1,4 @@
 <div class="home-page">
     <counter-bar [counters]="counters()"/>
-    <request-table [data]="requestList()"/>
+    <request-table [data]="requestList()" (requestAnswered)="handleRequestReply($event)"/>
 </div>

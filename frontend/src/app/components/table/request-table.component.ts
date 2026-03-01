@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, input, InputSignal, Signal, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, input, InputSignal, output, OutputEmitterRef, Signal, signal, WritableSignal } from '@angular/core';
 import { IRequest } from '../../interfaces/request.interface';
 import { TuiTable, TuiTableCaption, TuiTablePagination, TuiTablePaginationEvent, TuiTableTbody } from '@taiga-ui/addon-table';
 import { DatePipe } from '@angular/common';
@@ -16,6 +16,8 @@ import { type PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import { TuiActiveZone } from '@taiga-ui/cdk/directives/active-zone';
 import { TuiObscured } from '@taiga-ui/cdk/directives/obscured';
 import { TuiContext, TuiStringHandler } from '@taiga-ui/cdk/types';
+import { DataRequestService } from '../../services/data-request.service';
+import { take } from 'rxjs';
 
 @Component({
     selector: 'request-table',
@@ -49,6 +51,7 @@ import { TuiContext, TuiStringHandler } from '@taiga-ui/cdk/types';
 })
 export class RequestTableComponent {
     public readonly data: InputSignal<IRequest[]> = input.required();
+    public readonly requestAnswered: OutputEmitterRef<number> = output();
 
     protected readonly paginatedData: Signal<IRequest[]> = computed(() => {
         const page: number = this.page();
@@ -105,6 +108,7 @@ export class RequestTableComponent {
     protected readonly replyInProgress: WritableSignal<boolean> = signal(false);
     protected readonly isDownloadDropdownOpen: WritableSignal<boolean> = signal(false);
 
+    private readonly _dataService: DataRequestService = inject(DataRequestService);
     private readonly _modalService: TuiDialogService = inject(TuiDialogService);
     private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -147,7 +151,7 @@ export class RequestTableComponent {
     protected openModal(row: IRequest, content: PolymorpheusContent<TuiDialogContext>): void {
         this.activeRow.set(row);
         this.question.setValue(row.description);
-        this.reply.setValue('Ответ от ИИ');
+        this.reply.setValue(row.response || null);
 
         this._modalService.open(content, { size: 'm' })
             .pipe(takeUntilDestroyed(this._destroyRef))
@@ -155,18 +159,39 @@ export class RequestTableComponent {
     }
 
     /** Ответить на заявку */
-    protected replyOnRequest(): void {
+    protected replyOnRequest(request: IRequest): void {
         if (this.replyInProgress()) {
             return;
         }
 
         this.replyInProgress.set(true);
-        console.log(this.reply.getRawValue());
-        setTimeout(() => this.replyInProgress.set(false), 2000);
+        this._dataService.replyOnRequest(request.id, this.reply.getRawValue() || 'Без ответа')
+            .pipe(take(1))
+            .subscribe(() => {
+                request.status = RequestStatus.Resolved;
+                this.requestAnswered.emit(request.id);
+                this.replyInProgress.set(false);
+            });
     }
 
     /** Скачать документ */
-    protected downloadDocument(type: 'CSV' | 'XLSX'): void {
-        console.log('NOT IMPLEMENTED', type);
+    protected downloadDocument(type: 'csv' | 'xlsx'): void {
+        this._dataService.downloadDocument(type)
+            .pipe(take(1))
+            .subscribe({
+                next: (blob) => {
+                    const url: string = URL.createObjectURL(blob);
+
+                    const a: HTMLAnchorElement = document.createElement('a');
+                    a.href = url;
+                    a.download = `tickets.${type}`;
+                    a.click();
+
+                    URL.revokeObjectURL(url);
+                },
+                error: (err) => {
+                    console.error('Ошибка при скачивании файла', err);
+                },
+            });
     }
 }

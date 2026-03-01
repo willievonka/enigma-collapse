@@ -9,10 +9,12 @@ export interface IRequest {
     readonly enterpriseTitle: string;
     readonly phone: string;
     readonly email: string;
-    readonly factoryNumberList: string[];
+    readonly subject: string;
+    readonly factoryNumberList: string[] | null;
     readonly deviceType: string;
     readonly category: Category;
     readonly tonality: Tonality;
-    readonly status: RequestStatus;
+    status: RequestStatus;
     readonly description: string;
+    readonly response: string;
 }
