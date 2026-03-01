@@ -76,11 +76,11 @@ export class RequestTableComponent {
         const searchValue: string | undefined = this.search()?.toLowerCase().trim();
         if (searchValue) {
             rows = rows.filter(r =>
-                r.id.toString().toLowerCase().includes(searchValue) ||
-                r.name.toLowerCase().includes(searchValue) ||
-                r.email.toLowerCase().includes(searchValue) ||
-                r.enterpriseTitle.toLowerCase().includes(searchValue) ||
-                r.deviceType.toLowerCase().includes(searchValue)
+                r.id?.toString().toLowerCase().includes(searchValue) ||
+                r.name?.toLowerCase().includes(searchValue) ||
+                r.email?.toLowerCase().includes(searchValue) ||
+                r.enterpriseTitle?.toLowerCase().includes(searchValue) ||
+                r.deviceType?.toLowerCase().includes(searchValue)
             );
         }
 
@@ -193,5 +193,10 @@ export class RequestTableComponent {
                     console.error('Ошибка при скачивании файла', err);
                 },
             });
+    }
+
+    /** К начертанию с заглавной */
+    protected capitalizeFirstLetter(string: string): string {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 }
