@@ -45,10 +45,10 @@
         >
             <ng-template #dropdownContent>
                 <div class="request-table__download-dropdown">
-                    <button tuiButton size="s" appearance="outline" (click)="downloadDocument('CSV')">
+                    <button tuiButton size="s" appearance="outline" (click)="downloadDocument('csv')">
                         Скачать CSV
                     </button>
-                    <button tuiButton size="s" appearance="outline" (click)="downloadDocument('XLSX')">
+                    <button tuiButton size="s" appearance="outline" (click)="downloadDocument('xlsx')">
                         Скачать XLSX
                     </button>
                 </div>
@@ -95,8 +95,8 @@
                                 <div>{{ row.email }}</div>
                             </div>
                         </td>
-                        <td tuiTd>{{ row.enterpriseTitle }}</td>
-                        <td tuiTd>{{ row.deviceType }}</td>
+                        <td tuiTd>{{ row.enterpriseTitle || 'Не указана' }}</td>
+                        <td tuiTd>{{ (row.deviceType !== null && row.deviceType !== 'null') ? row.deviceType : 'Не определен' }}</td>
                         <td tuiTd>
                             <tui-chip
                                 class="request-table__chip"
@@ -157,10 +157,8 @@
                 <tui-chip appearance="outline">
                     Заявка № {{ request.id }}
                 </tui-chip>
-                <h3
-                    class="request-modal__title"
-                >
-                    Не отправляется айди устройства
+                <h3 class="request-modal__title" [title]="request.subject">
+                    {{ request.subject }}
                 </h3>
             </header>
 
@@ -204,13 +202,13 @@
                     </h4>
 
                     <div class="request-modal__field">
-                        <span class="label">ФИО</span>
+                        <span class="label">Имя</span>
                         <span class="value">{{ request.name }}</span>
                     </div>
 
                     <div class="request-modal__field">
                         <span class="label">Организация</span>
-                        <span class="value">{{ request.enterpriseTitle }}</span>
+                        <span class="value">{{ request.enterpriseTitle || 'Не указана' }}</span>
                     </div>
 
                     <div class="request-modal__field">
@@ -220,7 +218,7 @@
 
                     <div class="request-modal__field">
                         <span class="label">Телефон</span>
-                        <span class="value">{{ request.phone }}</span>
+                        <span class="value">{{ request.phone || 'Не указан' }}</span>
                     </div>
                 </section>
 
@@ -231,12 +229,12 @@
 
                     <div class="request-modal__field">
                         <span class="label">Прибор</span>
-                        <span class="value">{{ request.deviceType }}</span>
+                        <span class="value">{{ (request.deviceType !== null && request.deviceType !== 'null') ? request.deviceType : 'Не определен'}}</span>
                     </div>
 
                     <div class="request-modal__field">
                         <span class="label">Серийные номера</span>
-                        <span class="value">{{ request.factoryNumberList }}</span>
+                        <span class="value">{{ !!request.factoryNumberList?.length ? request.factoryNumberList?.join(', ') : "Не указаны" }}</span>
                     </div>
                 </section>
             </div>
@@ -265,14 +263,17 @@
                         placeholder="Введите ответ"
                         tuiTextarea
                         [formControl]="reply"
+                        [readOnly]="request.status === 'Решен'"
                     ></textarea>
                 </tui-textfield>
             </section>
 
             <footer class="request-modal__footer">
-                <button [loading]="replyInProgress()" size="s" tuiButton (click)="replyOnRequest()">
-                    Ответить
-                </button>
+                @if (!(request.status === 'Решен')) {
+                    <button [loading]="replyInProgress()" size="s" tuiButton (click)="replyOnRequest(request)">
+                        Ответить
+                    </button>
+                }
             </footer>
         </div>
     }

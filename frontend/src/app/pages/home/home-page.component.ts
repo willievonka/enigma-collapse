@@ -7,6 +7,7 @@ import { CounterBarComponent } from '../../components/counter-bar/counter-bar.co
 import { IStatusCounter } from '../../interfaces/status-counter.interface';
 import { STATUS_COUNTERS } from '../../constants/status-counters.constant';
 import { RequestTableComponent } from '../../components/table/request-table.component';
+import { RequestStatus } from '../../enums/request-status.enum';
 
 @Component({
     selector: 'home-page',
@@ -30,6 +31,15 @@ export class HomePageComponent {
 
     constructor() {
         this.init();
+    }
+
+    /** Ответить на заявку */
+    protected handleRequestReply(id: number): void {
+        this.requestList.set(
+            this.requestList().map(r =>
+                r.id === id ? { ...r, status: RequestStatus.Resolved } : r
+            )
+        );
     }
 
     /** Инициализация */
