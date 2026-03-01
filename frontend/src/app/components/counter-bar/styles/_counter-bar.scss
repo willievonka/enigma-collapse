@@ -1,4 +1,11 @@
 .counter-bar {
     display: flex;
     gap: 16px;
+
+    &__counter {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #DEDEDE;
+        min-width: 212px;
+    }
 }

@@ -96,7 +96,7 @@
                             </div>
                         </td>
                         <td tuiTd>{{ row.enterpriseTitle || 'Не указана' }}</td>
-                        <td tuiTd>{{ (row.deviceType !== null && row.deviceType !== 'null') ? row.deviceType : 'Не определен' }}</td>
+                        <td tuiTd>{{ (row.deviceType !== null && row.deviceType !== 'null') ? capitalizeFirstLetter(row.deviceType) : 'Не определен' }}</td>
                         <td tuiTd>
                             <tui-chip
                                 class="request-table__chip"
@@ -229,7 +229,7 @@
 
                     <div class="request-modal__field">
                         <span class="label">Прибор</span>
-                        <span class="value">{{ (request.deviceType !== null && request.deviceType !== 'null') ? request.deviceType : 'Не определен'}}</span>
+                        <span class="value">{{ (request.deviceType !== null && request.deviceType !== 'null') ? capitalizeFirstLetter(request.deviceType): 'Не определен'}}</span>
                     </div>
 
                     <div class="request-modal__field">
