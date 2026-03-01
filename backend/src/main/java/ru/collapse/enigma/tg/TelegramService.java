@@ -14,8 +14,8 @@ public class TelegramService {
 
     private static final String TEMPLATE = """
             *ОТ:* %s
-            *ТЕМА:* %s,
-            *ТОНАЛЬНОСТЬ:* %s,
+            *ТЕМА:* %s
+            *ТОНАЛЬНОСТЬ:* %s
             *КАТЕГОРИЯ:* %s
             """;
 
@@ -41,8 +41,8 @@ public class TelegramService {
         return TEMPLATE.formatted(
                 escapeMarkdownV2(ticket.getEmail()),
                 escapeMarkdownV2(ticket.getSubject()),
-                escapeMarkdownV2(ticket.getSentiment().name()),
-                escapeMarkdownV2(ticket.getCategory().name())
+                escapeMarkdownV2(ticket.getSentiment().getRussian()),
+                escapeMarkdownV2(ticket.getCategory().getRussian())
         );
     }
 

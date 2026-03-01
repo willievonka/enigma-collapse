@@ -1,7 +1,14 @@
 package ru.collapse.enigma.ticket.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Sentiment {
-    POSITIVE,
-    NEGATIVE,
-    NEUTRAL,
+    POSITIVE("Позитив"),
+    NEGATIVE("Нейтраль"),
+    NEUTRAL("Негатив");
+
+    private final String russian;
 }
